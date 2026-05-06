@@ -45,6 +45,11 @@ def get_profile(st):
     )
 
     location_type = st.selectbox(
+        "Do you want online or in-person ideas?",
+        ["Either", "Online", "In-person"],
+    )
+
+    transportation = st.selectbox(
         "Do you have transportation?",
         ["Yes", "Sometimes", "No"],
     )
@@ -55,7 +60,7 @@ def get_profile(st):
     )
 
     if age != "18+":
-        st.info("If you are under 18, ask a parent/guardian before meeting customers, accepting payments, or doing in-person work.")
+        st.info("If you are under 18, ask a parent or guardian before meeting customers, accepting payments, or doing in-person work.")
 
     return {
         "age": age,
@@ -67,9 +72,4 @@ def get_profile(st):
         "location_type": location_type,
         "transportation": transportation,
         "fast_or_long": fast_or_long,
-    }selectbox(
-        "Do you want online or in-person ideas?",
-        ["Either", "Online", "In-person"],
-    )
-
-    transportation = st.
+    }
