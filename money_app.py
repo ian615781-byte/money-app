@@ -9,7 +9,6 @@ CASH_APP_LINK = "https://cash.app/$iangriffin18"
 
 st.set_page_config(page_title="First $100 Mission", page_icon="💸", layout="wide")
 
-# ---------------- STYLE ----------------
 st.markdown("""
 <style>
 .big-title {
@@ -27,10 +26,15 @@ st.markdown("""
     background: #fff;
     margin-bottom: 15px;
 }
+.locked {
+    padding: 20px;
+    border-radius: 16px;
+    background: #fff7e6;
+    border: 1px solid #ffd27a;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- STATE ----------------
 if "profile" not in st.session_state:
     st.session_state.profile = None
 
@@ -43,12 +47,10 @@ if "selected_idea" not in st.session_state:
 if "paid" not in st.session_state:
     st.session_state.paid = False
 
-# ---------------- LANDING ----------------
 if st.session_state.profile is None:
-
     st.markdown('<div class="big-title">Make your first $100.</div>', unsafe_allow_html=True)
 
-    st.markdown("""
+    st.write("""
 This is not motivation.
 
 This is a system.
@@ -62,21 +64,11 @@ You will:
 If you follow this, you can make money.
 """)
 
-    st.markdown("""
-### 💥 Real Examples
-
-- Made $30 in 2 days doing yard work  
-- Got first client from Instagram DMs  
-- Turned 1 job into 3 repeat customers  
-
-This works if you actually do it.
-""")
-
     st.warning("If you don’t take action, nothing changes.")
 
     profile = get_profile(st)
 
-    if st.button("Start My $100 Mission"):
+    if st.button("Start My $100 Mission", use_container_width=True):
         if len(profile["skills"]) == 0:
             st.warning("Pick at least one skill")
         else:
@@ -84,9 +76,7 @@ This works if you actually do it.
             st.session_state.ideas = generate_ideas(profile)
             st.rerun()
 
-# ---------------- PICK IDEA ----------------
 elif st.session_state.selected_idea is None:
-
     st.header("Pick your path")
 
     for idea in st.session_state.ideas:
@@ -97,32 +87,20 @@ elif st.session_state.selected_idea is None:
         st.write("Start cost:", idea["cost"])
         st.write("Goal:", idea["first_goal"])
 
-        if st.button(f"Start {idea['name']}", key=idea["name"]):
+        if st.button(f"Start {idea['name']}", key=idea["name"], use_container_width=True):
             st.session_state.selected_idea = idea
             st.rerun()
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-# ---------------- MAIN ----------------
 else:
     idea = st.session_state.selected_idea
     course = get_course(idea["name"])
 
     st.header(idea["name"])
 
-    st.markdown("""
-### 🧠 Your Mission
+    tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Daily Plan", "Scripts 🔒", "Tracker 🔒"])
 
-Follow the steps.
-Take action.
-Make money.
-
-This only works if you do the work.
-""")
-
-    tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Daily Plan", "Scripts", "Tracker"])
-
-    # -------- OVERVIEW --------
     with tab1:
         st.subheader("What you’re doing")
         st.write(idea["explanation"])
@@ -131,46 +109,34 @@ This only works if you do the work.
         for p in get_places(idea["name"]):
             st.write("- " + p)
 
-    # -------- DAILY PLAN --------
     with tab2:
         for d in course["days"]:
-            st.subheader(f"Day {d['day']}")
+            st.subheader(f"Day {d['day']}: {d['goal']}")
             st.write(d["lesson"])
             st.success(d["action"])
 
-    # -------- SCRIPTS --------
     with tab3:
-        if not st.session_state.paid:
-            st.markdown("""
-### 🔓 Unlock Full System
+        st.markdown("""
+<div class="locked">
+<h3>🔒 Scripts Locked</h3>
+<p>Unlock exact copy-paste messages to send customers.</p>
+<p><b>Price:</b> $5 one-time</p>
+</div>
+""", unsafe_allow_html=True)
 
-Get:
-- Exact messages to send
-- Real scripts that get customers
-- The fastest way to make your first $100
+        st.link_button("Pay $5 with Cash App", CASH_APP_LINK, use_container_width=True)
 
-One-time: $5
-""")
+        st.info("After paying, send proof of payment to $iangriffin18. Then you can be given access to the full version.")
 
-            st.link_button("Pay $5", CASH_APP_LINK)
-
-            if st.button("I Paid - Unlock"):
-                st.session_state.paid = True
-                st.rerun()
-
-        else:
-            for d in course["days"]:
-                st.write(d["script"])
-
-    # -------- TRACKER --------
     with tab4:
-        if not st.session_state.paid:
-            st.markdown("Unlock tracker after payment")
-            st.link_button("Pay $5", CASH_APP_LINK)
+        st.markdown("""
+<div class="locked">
+<h3>🔒 Tracker Locked</h3>
+<p>Unlock the progress tracker, money tracker, streaks, and levels.</p>
+<p><b>Price:</b> $5 one-time</p>
+</div>
+""", unsafe_allow_html=True)
 
-            if st.button("I Paid - Unlock Tracker"):
-                st.session_state.paid = True
-                st.rerun()
+        st.link_button("Pay $5 with Cash App", CASH_APP_LINK, use_container_width=True)
 
-        else:
-            show_tracker(st, idea)
+        st.info("After paying, send proof of payment to $iangriffin18. Then you can be given access to the full version.")
