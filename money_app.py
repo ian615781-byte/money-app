@@ -26,7 +26,7 @@ if "completed_tasks" not in st.session_state:
 if "coach_chat" not in st.session_state:
     st.session_state.coach_chat = []
 
-st.title("💸 Make Your First $100 in 7 Days")
+st.title("🔥 HustlePath")
 st.error("Most people stay broke because they don’t know what to do. This tells you exactly what to do starting today.")
 st.success("Real examples:\n- Made $30 in 2 days doing yard work\n- Got first client from Instagram DMs\n- Turned 1 job into repeat customers")
 st.warning("You have 7 days to make your first $100. Follow the plan exactly.")
